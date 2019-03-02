@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Flight Swarch">
+
+    <test name="Flight Search">
+        <classes>
+            <class name="Script.VerifyData"></class>
+        </classes>
+    </test>
+
+</suite>
