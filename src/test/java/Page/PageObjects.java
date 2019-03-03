@@ -24,16 +24,9 @@ static WebElement Button2;
 @FindBy(id="Button3")
 static WebElement Button3;
 
-/*public static void initElemnts(WebDriver driver, Object obj){
-
-
-
-}*/
-
 public PageObjects(WebDriver driver){
     this.driver = driver;
     PageFactory.initElements(driver, this);
-
 }
 
     /**
@@ -46,7 +39,7 @@ public void buttonClick(String buttonData, List<String> data){
 try {
     if (buttonData == Button1.getText()) {
         Button1.click();
-        dbConnection.InsertDoscument(data);
+        dbConnection.InsertDocument(data);
 
     } else if (buttonData == Button2.getText()) {
         Button2.click();
@@ -55,7 +48,7 @@ try {
         Button3.click();
     }
 }catch (Exception e){
-    Reporter.log("The Jason Response doesn't have any text related to Buttons available");
+    Reporter.log("The Json Response doesn't have any text related to Buttons available");
 }
 
 

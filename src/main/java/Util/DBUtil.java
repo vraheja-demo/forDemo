@@ -2,40 +2,43 @@ package Util;
 
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-
-import javax.print.Doc;
 import java.util.Iterator;
 import java.util.List;
 
 
 public class DBUtil{
-    public  static MongoCollection getConnection(){
 
-        MongoClient mongoclient = new MongoClient("localhost", 27017);
+    static MongoClient mongoclient;
+    static MongoCollection<Document> collection;
+    public static MongoCollection getConnection () {
+
+        mongoclient = new MongoClient("localhost", 27017);
         MongoDatabase dbs = mongoclient.getDatabase("testdb");
-        MongoCollection<Document> collection = dbs.getCollection("sampleCollection");
+        collection = dbs.getCollection("sampleCollection");
         return collection;
     }
 
-public void InsertDoscument(List<String> data){
+public void InsertDocument(List<String> data){
 
+//Insert Array List,  took help from Google
+    collection = DBUtil.getConnection();
+    Document document = new Document("_id", "ArrayList")
+            .append("address", data);
 
-    MongoCollection<Document> collection = DBUtil.getConnection();
-    Document document = new Document("email", data.get(0))
-            .append("address", data.get(1))
-            .append("details", data.get(2));
     collection.insertOne(document);
+    DBUtil.closeConnection();
 
 
 }
 
 public  void retrieveDocument(){
 
-    MongoCollection<Document> collection = DBUtil.getConnection();
+    collection = DBUtil.getConnection();
     FindIterable<Document> itr= collection.find();
     int i = 1;
 
@@ -43,11 +46,22 @@ public  void retrieveDocument(){
     Iterator it = itr.iterator();
 
     while (it.hasNext()) {
-        String list = (it.next());
+        it.next();
         i++;
+    }
+
+DBUtil.closeConnection();
+}
+
+public static void closeConnection(){
+try {
+    mongoclient.close();
+}catch (MongoClientException e){
+
+}
     }
 }
 
 
-}
-}
+
+

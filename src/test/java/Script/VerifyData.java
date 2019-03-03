@@ -64,7 +64,10 @@ public class VerifyData extends BaseClass {
         statuscode = jsonResponse.getStatusLine().getStatusCode();
         String completeResponse= EntityUtils.toString(jsonResponse.getEntity(), "UTF-8");
         jsontest = new JSONObject(completeResponse);
-        if(statuscode == 200) {
+        if(statuscode !=200){
+            throw new RuntimeException("HttpResponseCode:" + statuscode);
+        }
+        else {
             String Button1 = jsontest.getString("buttonName");
             jsonData.add(jsontest.getString("email"));
             jsonData.add(jsontest.getString("address"));
