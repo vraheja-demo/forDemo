@@ -1,7 +1,6 @@
 package Page;
 
 import Base.BaseClass;
-import Util.APIUtil;
 import Util.DBUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,29 +29,30 @@ public PageObjects(WebDriver driver){
 }
 
     /**
-     * This method check if Jason response contains any data matching the getText of any button
+     * This method check if Json response contains any data matching the getText of any button
      * if found Click on the button
      *
      */
 
 public void buttonClick(String buttonData, List<String> data){
 try {
-    if (buttonData == Button1.getText()) {
+     if (buttonData == Button1.getText()) {
         Button1.click();
-        dbConnection.InsertDocument(data);
+        List<String> firstTwoRecords = data.subList(0, 2);
+        dbConnection.InsertDocument(firstTwoRecords);
 
     } else if (buttonData == Button2.getText()) {
         Button2.click();
+        List<String> nextTwoRecords = data.subList(2, 4);
+        dbConnection.InsertDocument(nextTwoRecords);
 
     } else if (buttonData == Button2.getText()) {
         Button3.click();
+        List<String> lastTwoRecords = data.subList(4, 6);
+        dbConnection.InsertDocument(lastTwoRecords);
     }
 }catch (Exception e){
     Reporter.log("The Json Response doesn't have any text related to Buttons available");
-}
-
-
-
-}
-
+    }
+  }
 }
