@@ -20,11 +20,23 @@ public class PropertiesUtil {
         return prop;
     }
 
+    /**
+     * Load the Properties file
+     *
+     * @param file
+     * @throws IOException
+     */
     public void load(File file) throws IOException{
         InputStream input = new FileInputStream(file);
         properties.load(input);
     }
 
+    /**
+     * Return the Value from properties file
+     *
+     * @param key
+     * @return
+     */
     public String getValue(String key) {
         return properties.getProperty(key).trim();
     }

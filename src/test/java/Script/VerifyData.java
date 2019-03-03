@@ -39,8 +39,9 @@ public class VerifyData extends BaseClass {
 
 
     }
+
     @BeforeMethod
-    public void Initialize() throws IOException {
+    public void Initialize(){
         homePage = pr.getValue("baseurl");
         restAPIURL = pr.getValue("endPointURL");
         driver.navigate().to(homePage);
@@ -61,7 +62,7 @@ public class VerifyData extends BaseClass {
         String completeResponse= EntityUtils.toString(jsonResponse.getEntity(), "UTF-8");
         jsontest = new JSONObject(completeResponse);
         if(statuscode !=200){
-            throw new RuntimeException("HttpResponseCode:" + statuscode);
+            throw new RuntimeException("HttpResponseCode: " + statuscode);
         }
         else {
             String Button1 = jsontest.getString("buttonName");
@@ -76,7 +77,9 @@ public class VerifyData extends BaseClass {
         }
     }
 
-        @AfterMethod
+
+
+    @AfterMethod
     public void commonStepsAfterMethod(){
        driver.quit();
      }
