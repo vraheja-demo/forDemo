@@ -1,56 +1,53 @@
 package Util;
 
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientException;
+import com.mongodb.*;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 public class DBUtil{
 
     static MongoClient mongoclient;
-    static MongoCollection<Document> collection;
-    public static MongoCollection getConnection () {
+    static MongoDatabase database;
+    static MongoCollection<Document> dbcollection;
 
+    public static MongoCollection getConnection () {
         mongoclient = new MongoClient("localhost", 27017);
-        MongoDatabase dbs = mongoclient.getDatabase("testdb");
-        collection = dbs.getCollection("sampleCollection");
-        return collection;
+        database =  mongoclient.getDatabase("testDB");
+        dbcollection = database.getCollection("sampleCollection");
+        return dbcollection;
     }
 
 public void InsertDocument(List<String> data){
 
-//Insert Array List,  took help from Google
-    collection = DBUtil.getConnection();
+    //Insert Array List,  took help from Google
+    dbcollection = DBUtil.getConnection();
     Document document = new Document("_id", "ArrayList")
-            .append("address", data);
+            .append("data", data);
 
-    collection.insertOne(document);
+    dbcollection.insertOne(document);
     DBUtil.closeConnection();
-
 
 }
 
-public  void retrieveDocument(){
+public static List<String> retrieveDocument(){
 
-    collection = DBUtil.getConnection();
-    FindIterable<Document> itr= collection.find();
-    int i = 1;
-
-    // Getting the iterator
-    Iterator it = itr.iterator();
-
-    while (it.hasNext()) {
-        it.next();
-        i++;
-    }
-
-DBUtil.closeConnection();
+    List<String> retrieveData = new ArrayList<String>();
+    dbcollection = DBUtil.getConnection();
+    FindIterable<Document> docs = dbcollection.find();
+     for(Document doc: docs){
+        retrieveData.add(doc.getString("CustomerName"));
+        retrieveData.add(doc.getString("email"));
+        retrieveData.add(doc.getString("FlightFrom"));
+        retrieveData.add(doc.getString("FlightTo"));
+        retrieveData.add(doc.getString("address"));
+        retrieveData.add(doc.getString("Details"));
+      }
+   DBUtil.closeConnection();
+   return retrieveData;
 }
 
 public static void closeConnection(){

@@ -13,6 +13,5 @@ public static WebDriver getDriver() {
     driver = new ChromeDriver();
     driver.manage().window().maximize();
     return driver;
-
-}
+  }
 }
