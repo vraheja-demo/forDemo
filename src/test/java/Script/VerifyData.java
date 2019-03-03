@@ -77,7 +77,7 @@ public class VerifyData extends BaseClass {
         }
     }
 
-
+   
 
     @AfterMethod
     public void commonStepsAfterMethod(){
